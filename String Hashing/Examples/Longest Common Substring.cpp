@@ -1,3 +1,4 @@
+// O(logn * |a| * |b| )
 bool hasCommonSubstring(StringHash a,StringHash b,ll length){
 	unordered_map<ll,bool> hash_table;
 	for (int i = 0; i + length - 1< b.size(); ++i) {
