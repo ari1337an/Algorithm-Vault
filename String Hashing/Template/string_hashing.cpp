@@ -43,16 +43,16 @@ struct SingleHash{
 struct StringHash{
 	SingleHash h1,h2;
 	string str;
-	int size;
+	int size_str;
 	bool onlyPrefix;
 
-	StringHash(string str, bool onlyPrefix = false ): str(str), size(str.size()), onlyPrefix(onlyPrefix) {
+	StringHash(string str, bool onlyPrefix = false ): str(str), size_str(str.size()), onlyPrefix(onlyPrefix) {
 		h1 = SingleHash(str,BASE1,MOD1,onlyPrefix);
 		h2 = SingleHash(str,BASE2,MOD2,onlyPrefix);
 	}
 
 	ull forward_hash(){
-		return ((ull)h1.forward_hash(0,size-1) << 32) ^ h2.forward_hash(0,size-1);
+		return ((ull)h1.forward_hash(0,size_str-1) << 32) ^ h2.forward_hash(0,size_str-1);
 	}
 
 	ull forward_hash(int l,int r){
@@ -60,7 +60,7 @@ struct StringHash{
 	}
 
 	ull reverse_hash(){
-		if(!onlyPrefix) return ((ull)h1.reverse_hash(0,size-1) << 32) ^ h2.reverse_hash(0,size-1);
+		if(!onlyPrefix) return ((ull)h1.reverse_hash(0,size_str-1) << 32) ^ h2.reverse_hash(0,size_str-1);
 		else{
 			cerr << "Reverse Hash Was Not Calculated Upon Hashing!" close
 			return 0;
@@ -73,6 +73,14 @@ struct StringHash{
 			cerr << "Reverse Hash Was Not Calculated Upon Hashing" close
 			return 0;
 		}
+	}
+
+	unsigned int size() const{
+		return size_str;
+	}
+
+	string toString() const{
+		return str;
 	}
 
 };
