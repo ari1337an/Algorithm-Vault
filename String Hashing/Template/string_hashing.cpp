@@ -46,9 +46,14 @@ struct StringHash{
 	int size_str;
 	bool onlyPrefix;
 
-	StringHash(string str, bool onlyPrefix = false): str(str), size_str(str.size()), onlyPrefix(onlyPrefix) {
-		h1 = SingleHash(str,BASE1,MOD1,onlyPrefix);
-		h2 = SingleHash(str,BASE2,MOD2,onlyPrefix);
+	StringHash(string str, bool singleHash = false, bool onlyPrefix = false): str(str), size_str(str.size()), onlyPrefix(onlyPrefix) {
+		if(singleHash){
+			h1 = SingleHash(str,BASE1,MOD1,onlyPrefix);
+			h2 = h1;
+		}else{
+			h1 = SingleHash(str,BASE1,MOD1,onlyPrefix);
+			h2 = SingleHash(str,BASE2,MOD2,onlyPrefix);
+		}
 	}
 
 	ull forward_hash(){
