@@ -11,7 +11,7 @@ const ull MOD2  = PRIMES[get_random(PRIMES.size()-1)];
 struct SingleHash{
 	ull base,mod;
 	bool onlyPrefix;
-	vector<ull> basepow, prefix_hash, suffix_hash;
+	vector<ll> basepow, prefix_hash, suffix_hash;
 	SingleHash(){}
 	SingleHash(string str, ull base, ull mod,bool onlyPrefix = false): base(base), mod(mod), onlyPrefix(onlyPrefix){
 		int len = str.size();
@@ -30,12 +30,12 @@ struct SingleHash{
 	}
 
 	ull forward_hash(int l,int r){
-		ull h = (prefix_hash[r+1] -  ((ull)basepow[r-l+1] * prefix_hash[l] % MOD) );
-		return h < 0 ? h+mod : h;
+		ll h = prefix_hash[r+1] - ((ull)basepow[r-l+1] * prefix_hash[l] % mod) ;
+		return h < 0 ? h + mod : h;
 	}
 
 	ull reverse_hash(int l,int r){
-		ull h = (suffix_hash[r+1] -  ((ull)basepow[r-l+1] * suffix_hash[l] % MOD) );
+		ll h = (suffix_hash[l+1] -  ((ull)basepow[r-l+1] * suffix_hash[r+2] % mod) );
 		return h < 0 ? h+mod : h;
 	}
 };
@@ -46,7 +46,7 @@ struct StringHash{
 	int size_str;
 	bool onlyPrefix;
 
-	StringHash(string str, bool onlyPrefix = false ): str(str), size_str(str.size()), onlyPrefix(onlyPrefix) {
+	StringHash(string str, bool onlyPrefix = false): str(str), size_str(str.size()), onlyPrefix(onlyPrefix) {
 		h1 = SingleHash(str,BASE1,MOD1,onlyPrefix);
 		h2 = SingleHash(str,BASE2,MOD2,onlyPrefix);
 	}
