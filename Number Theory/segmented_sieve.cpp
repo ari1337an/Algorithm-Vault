@@ -1,21 +1,23 @@
-vector<bool> segmentedSieve(long long L, long long R) {
-    // generate all primes up to sqrt(R)
-    long long lim = sqrt(R);
-    vector<bool> mark(lim + 1, false);
-    vector<long long> primes;
-    for (long long i = 2; i <= lim; ++i) {
-        if (!mark[i]) {
-            primes.emplace_back(i);
-            for (long long j = i * i; j <= lim; j += i)
-                mark[j] = true;
+vector<bool> segmentSIEVE(ll L, ll R){
+    ll sqrt_till = (ll)sqrt(R);
+    vector<bool> isPrime(sqrt_till + 1, true);
+    vector<ll> primes;
+    isPrime[0] = isPrime[1] = false;
+    for (ll i = 2; i <= sqrt_till; i++) {
+        if(isPrime[i]){
+            primes.push_back(i);
+            for (int j = i * i; j <= sqrt_till; j = j + i) {
+                isPrime[j] = false;
+            }
         }
     }
-
-    vector<bool> isPrime(R - L + 1, true);
-    for (long long i : primes)
-        for (long long j = max(i * i, (L + i - 1) / i * i); j <= R; j += i)
-            isPrime[j - L] = false;
-    if (L == 1)
-        isPrime[0] = false;
-    return isPrime;
+    vector<bool> segments( R - L + 1 , true);
+    if (L == 0) segments[0] = segments[1] = false;
+    if(L == 1) segments[0] = false;
+    for(ll i : primes){
+        for (ll j = max(i * i, (L + i - 1) / i * i); j <= R; j += i){
+            segments[j - L] = false;
+        }
+    }
+    return segments;
 }
