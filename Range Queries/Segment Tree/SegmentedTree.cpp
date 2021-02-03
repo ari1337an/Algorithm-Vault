@@ -1,7 +1,8 @@
-st.init(n); // Build a "n" sized segment trees with all zeroes 
-st.build(a); // Transform a vector into a segment tree
-st.set(x,v); // set index "x" to value "v"
-st.sum(l,r); // get sum on segment [l,r)
+/******** USAGE ********/
+// st.init(n); // Build a "n" sized segment trees with all zeroes in O(logn)
+// st.build(a); // Transform a vector into a segment tree in O(logn)
+// st.set(x,v); // set index "x" to value "v" in O(logn)
+// st.sum(l,r); // get sum on segment [l,r) in O(logn)
 
 struct segtrees{
     int size;
