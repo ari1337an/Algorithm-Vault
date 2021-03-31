@@ -108,7 +108,7 @@ struct BigInteger {
 
     BigInteger operator/(const BigInteger &b) {
         if (b.len <= 1 && b[1] == 0) {
-            printf("error! 被0除!");
+            printf("error!");
             for (;;);
         }
         int i, l1 = (len - 1) * Blen, l2 = (b.len - 1) * Blen;
@@ -184,7 +184,7 @@ struct BigInteger {
 
     BigInteger operator%(const BigInteger &b) {
         if (b.len <= 1 && b[1] == 0) {
-            printf("error! 被0 mod!");
+            printf("error! 0 mod!");
             for (;;);
         }
         int i, l1 = (len - 1) * Blen, l2 = (b.len - 1) * Blen;
@@ -202,6 +202,17 @@ struct BigInteger {
             B /= 10;
         }
         return chu;
+    }
+
+    static BigInteger bigMod(BigInteger a, BigInteger p) {
+        BigInteger res = BigInteger(1);
+        BigInteger x = BigInteger(a);
+        while (p > 0) {
+            if ((p%2) > 0) res = (res * x);
+            x = (x * x);
+            p /= BigInteger(2);
+        }
+        return res;
     }
 
     BigInteger operator+=(const BigInteger &b) { return *this = (*this + b); }
@@ -224,7 +235,7 @@ struct BigInteger {
 
     void read() {
         char c[bignumlen * Blen + 10];
-        scanf("%s", c + 1);
+        cin >> (c+1);
         int l = strlen(c + 1);
         (*this).clear();
         ll x;
@@ -236,8 +247,15 @@ struct BigInteger {
     }
 
     void write() {
-        printf("%I64d", data[len]);
-        for (int i = len - 1; i >= 1; --i)printf("%0*I64d", Blen, data[i]);
+        cout << data[len];
+        for (int i = len - 1; i >= 1; --i){
+            int total = (int)(log10(data[i]) + 1 + EPS);
+            cout << data[i];
+            while(total < Blen){
+                cout << 0;
+                total++;
+            }
+        }
     }
 };
 BigInteger gcd(const BigInteger &A,const BigInteger &B){
