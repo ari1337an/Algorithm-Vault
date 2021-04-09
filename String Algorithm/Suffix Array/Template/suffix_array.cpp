@@ -1,18 +1,21 @@
-class SuffixArray{
+class SuffixArray {
 public:
-    string* str;
+    string *str;
     vector<int> suffix_array;
+    vector<int> lcp;
     int size;
 
-    SuffixArray(string &str){
+    SuffixArray(string &str, bool build_lcp = false) {
         this->str = &str;
-        this->suffix_array_construction(str,this->suffix_array);
+        this->suffix_array_construction(str, this->suffix_array);
         this->size = str.size();
+        if (build_lcp == true) this->lcp_construction(str, this->suffix_array);
     }
 
-    ~SuffixArray(){
+    ~SuffixArray() {
         str = NULL;
         suffix_array.clear();
+        lcp.clear();
     }
 
     static void sort_cyclic_shifts(string const &s, vector<int> &p) {
@@ -60,22 +63,45 @@ public:
         }
     }
 
-    static void suffix_array_construction(string &s,vector<int> &sorted_shifts) {
+    static void suffix_array_construction(string &s, vector<int> &sorted_shifts) {
         s += "$";
-        sort_cyclic_shifts(s,sorted_shifts);
+        sort_cyclic_shifts(s, sorted_shifts);
         s.pop_back();
         sorted_shifts.erase(sorted_shifts.begin());
     }
 
-    int get_suffix_size(int pos){
-        return (*str).size()-pos;
+    int get_suffix_size(int pos) {
+        return (*str).size() - pos;
     }
 
-    string get_suffix(int pos){
+    string get_suffix(int pos) {
         string res;
         for (int i = pos; i < (*str).size(); ++i) {
             res += str[0][i];
         }
         return res;
     }
+
+    void lcp_construction(string const &s, vector<int> const &p) {
+        int n = s.size();
+        vector<int> rank(n, 0);
+        for (int i = 0; i < n; i++)
+            rank[p[i]] = i;
+
+        int k = 0;
+        lcp.resize(n - 1, 0);
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = p[rank[i] + 1];
+            while (i + k < n && j + k < n && s[i + k] == s[j + k])
+                k++;
+            lcp[rank[i]] = k;
+            if (k)
+                k--;
+        }
+    }
+
 };
