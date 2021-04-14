@@ -3,17 +3,20 @@ class Matrix {
 public:
     int mod = 0;
     vector<vector<T> > A;
+    T X_point,Y_point,Z_point;
     int r, c;
     Matrix() { //Default Constructor
         this->r = 0,this->c = 0;
     }
+    Matrix(T x, T y, T z){
+        this->r = 1,this->c = 4;
+        this->X_point = x, this->Y_point = y, this->Z_point = z;
+        A.assign(this->r, vector<T>(this->c));
+        A[0][0] = x, A[0][1] = y, A[0][2] = z, A[0][3] = 1;
+    }
     Matrix(int r, int c) { //Matrix with given dimensions and random values
         this->r = r,this->c = c;
         A.assign(r, vector<T>(c));
-    }
-    Matrix(int r, int c, const T &val) { //Matrix with given value and dimensions
-        this->r = r,this->c = c;
-        A.assign(r, vector<T>(c, val));
     }
     Matrix(int n) { //Identity matrix with given dimension
         this->r = this->c = n;
@@ -182,5 +185,25 @@ public:
             out << '\n';
         }
         return out;
+    }
+    Matrix<T> transformation_shift(T x, T y, T z){
+        Matrix<T> a(4);
+        a.A[3][0] = x,a.A[3][1] = y,a.A[3][2] = z;
+        Matrix<T> b(this->X_point, this->Y_point, this->Z_point);
+        return b*a;
+    }
+    Matrix<T> transformation_scale(T x, T y, T z){
+        Matrix<T> a(4);
+        a.A[0][0] = x,a.A[1][1] = y,a.A[2][2] = z;
+        Matrix<T> b(this->X_point, this->Y_point, this->Z_point);
+        return b*a;
+    }
+    Matrix<T> transformation_rotate(T theta){
+        Matrix<T> a(4);
+        a.A[0][0] = 1,a.A[1][1] = cos(theta);
+        a.A[2][2] = cos(theta),a.A[3][3] = 1;
+        a.A[2][1] = sin(theta),a.A[1][2] = (-1) * sin(theta);
+        Matrix<T> b(this->X_point, this->Y_point, this->Z_point);
+        return b*a;
     }
 };
