@@ -3,7 +3,9 @@
 // Usage:
 // HashMap<int, bool> strokes(100000);
 // strokes.add(key, val);
-// To checkL strokes[key];
+// To check  :  strokes[key];
+// To change :  stokes.set(key, newVal);
+// To clear  :  stokes.clear();
 
 
 template<typename TKey, typename TValue>
