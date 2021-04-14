@@ -1,7 +1,7 @@
 // O(1) Checking, Default 0, Faster than unordered_map
 
 // Usage:
-// auto strokes = HashMap<int, bool>(100000);
+// HashMap<int, bool> strokes(100000);
 // strokes.add(key, val);
 // To checkL strokes[key];
 
