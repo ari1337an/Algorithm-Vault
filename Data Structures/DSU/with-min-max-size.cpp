@@ -9,7 +9,7 @@ struct DSU{
         }
     }
     int get(int a) { return p[a] = (p[a] == a ? a : get(p[a])); }
-    void union_sets(int a, int b) {
+    void join(int a, int b) {
         a = get(a),b = get(b);
         if(a == b) return;
         if(r[a] == r[b]) r[a]++;
