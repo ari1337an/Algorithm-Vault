@@ -18,10 +18,7 @@ struct DSU{
         a = get(a),b = get(b);
         if(a == b) return;
         if(r[a] == r[b]) r[a]++;
-        if(r[a] > r[b]){
-            p[b] = a;
-        }else{
-            p[a] = b;
-        }
+        if(r[a] > r[b]) swap(a,b);
+        p[a] = b;
     }
 };
