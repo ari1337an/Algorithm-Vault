@@ -40,7 +40,7 @@ template<class T>
 bool lde_three_variable_solver(int a, int b, int c, int d, int up_limit, int &xk, int &yk, int &zk, int &g, T standard_solver){
     // solves ax + by + cz = d where a,b,c,d <= up_limit
     int gcd = __gcd(a,b);
-    for(int gc = 0; gc <= d; gc+=gcd){
+    for(int gc = (-1)*up_limit*c + d; gc <= d; gc+=gcd){
         if((gc-d)%c != 0) continue;
         zk = (d-gc)/c;
         int tmp_n = d - c*zk;
